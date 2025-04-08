@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
-import { IoWalletOutline, IoPersonOutline, IoFolderOutline, IoSettingsOutline, IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
-import { IoWifi, IoBatteryFull, IoBatteryHalf, IoBatteryDead } from 'react-icons/io5';
-import { IoPhonePortraitOutline } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
+import {
+    IoWalletOutline, IoPersonOutline, IoEyeOutline, IoEyeOffOutline,
+    IoBatteryFull, IoBatteryHalf, IoBatteryDead, IoWifi
+} from 'react-icons/io5';
 import "./Profile.scss";
 
 interface NetworkStatus {
@@ -11,24 +12,12 @@ interface NetworkStatus {
     type: 'wifi' | 'cellular' | 'none';
 }
 
-interface NetworkConnection {
-    type: string;
-    saveData: boolean;
-    addEventListener: (type: string, listener: () => void) => void;
-    removeEventListener: (type: string, listener: () => void) => void;
-}
-
-interface NavigatorWithConnection extends Navigator {
-    connection?: NetworkConnection;
-}
-
-interface NavigatorWithBattery extends Navigator {
-    getBattery?: () => Promise<{
-        level: number;
-        charging: boolean;
-        addEventListener: (type: string, listener: () => void) => void;
-        removeEventListener: (type: string, listener: () => void) => void;
-    }>;
+interface ProfileData {
+    totalDebt: number;
+    delayedPayments: number;
+    totalClients: number;
+    accountBalance: number;
+    monthlyPaymentStatus: string;
 }
 
 const LoadingScreen = () => (
@@ -43,17 +32,14 @@ const Profile = () => {
     const [currentTime, setCurrentTime] = useState("");
     const [isAmountVisible, setIsAmountVisible] = useState(true);
     const [isLoading, setIsLoading] = useState(true);
-    const [batteryStatus, setBatteryStatus] = useState({
-        level: 1,
-        charging: false
-    });
+    const [batteryStatus, setBatteryStatus] = useState({ level: 1, charging: false });
     const [networkStatus, setNetworkStatus] = useState<NetworkStatus>({
         online: navigator.onLine,
         strength: 4,
         type: 'wifi'
     });
 
-    const profileData = {
+    const profileData: ProfileData = {
         totalDebt: 135214200,
         delayedPayments: 26,
         totalClients: 151,
@@ -71,41 +57,29 @@ const Profile = () => {
 
         const updateBattery = async () => {
             try {
-                if (!('getBattery' in navigator)) return;
-                const battery = await (navigator as any).getBattery();
-
-                const updateStatus = () => {
-                    setBatteryStatus({
-                        level: battery.level,
-                        charging: battery.charging
-                    });
-                };
-
-                battery.addEventListener('levelchange', updateStatus);
-                battery.addEventListener('chargingchange', updateStatus);
-                updateStatus();
-
-                return () => {
-                    battery.removeEventListener('levelchange', updateStatus);
-                    battery.removeEventListener('chargingchange', updateStatus);
-                };
+                if ('getBattery' in navigator) {
+                    const battery = await (navigator as any).getBattery();
+                    const updateStatus = () => {
+                        setBatteryStatus({ level: battery.level, charging: battery.charging });
+                    };
+                    battery.addEventListener("levelchange", updateStatus);
+                    battery.addEventListener("chargingchange", updateStatus);
+                    updateStatus();
+                }
             } catch (error) {
-                console.log('Battery API не поддерживается');
+                console.log("Battery API qo'llab-quvvatlanmaydi");
             }
         };
 
         const updateNetworkInfo = () => {
             const connection = (navigator as any).connection;
-
             if (connection) {
                 const strength = Math.min(Math.floor(connection.downlink / 2), 4);
                 setNetworkStatus({
                     online: navigator.onLine,
-                    strength: strength,
-                    type: connection.type === 'wifi' ? 'wifi' : 'cellular'
+                    strength,
+                    type: connection.type === "wifi" ? "wifi" : "cellular"
                 });
-
-                connection.addEventListener('change', updateNetworkInfo);
             }
         };
 
@@ -115,39 +89,41 @@ const Profile = () => {
 
         const timeInterval = setInterval(updateTime, 60000);
         const networkInterval = setInterval(updateNetworkInfo, 10000);
-
-        setTimeout(() => setIsLoading(false), 1500);
+        const loadingTimeout = setTimeout(() => setIsLoading(false), 1500);
 
         return () => {
             clearInterval(timeInterval);
             clearInterval(networkInterval);
+            clearTimeout(loadingTimeout);
         };
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem("username");
-        localStorage.removeItem("token");
+        localStorage.clear();
         navigate("/login");
     };
 
     const formatCurrency = (amount: number): string => {
-        return new Intl.NumberFormat('uz-UZ').format(amount);
+        return new Intl.NumberFormat("uz-UZ").format(amount);
     };
 
     const renderBatteryIcon = () => {
         const batteryPercent = Math.round(batteryStatus.level * 100);
-        const batteryColor = batteryStatus.charging ? '#4CAF50' :
-            batteryPercent <= 20 ? '#e74c3c' : '#2c3e50';
+        const batteryColor = batteryStatus.charging
+            ? '#4CAF50'
+            : batteryPercent <= 20
+                ? '#e74c3c'
+                : '#2c3e50';
+
+        const BatteryIcon = batteryStatus.level > 0.7
+            ? IoBatteryFull
+            : batteryStatus.level > 0.3
+                ? IoBatteryHalf
+                : IoBatteryDead;
 
         return (
             <div className="battery-status">
-                {batteryStatus.level > 0.7 ? (
-                    <IoBatteryFull className="battery-icon" style={{ color: batteryColor }} />
-                ) : batteryStatus.level > 0.3 ? (
-                    <IoBatteryHalf className="battery-icon" style={{ color: batteryColor }} />
-                ) : (
-                    <IoBatteryDead className="battery-icon" style={{ color: batteryColor }} />
-                )}
+                <BatteryIcon className="battery-icon" style={{ color: batteryColor }} />
                 <span className="battery-percent" style={{ color: batteryColor }}>
                     {batteryPercent}%
                 </span>
@@ -157,17 +133,15 @@ const Profile = () => {
 
     const renderSignalBars = () => {
         const bars = [];
-        const maxBars = 4;
         const activeColor = networkStatus.online ? '#2c3e50' : '#95a5a6';
-        const inactiveColor = '#e0e0e0';
 
-        for (let i = 0; i < maxBars; i++) {
+        for (let i = 0; i < 4; i++) {
             bars.push(
                 <div
                     key={i}
                     className="signal-bar"
                     style={{
-                        backgroundColor: i < networkStatus.strength ? activeColor : inactiveColor,
+                        backgroundColor: i < networkStatus.strength ? activeColor : '#e0e0e0',
                         height: `${(i + 1) * 3}px`,
                         width: '2px',
                         marginRight: '1px'
@@ -179,9 +153,7 @@ const Profile = () => {
         return <div className="signal-bars">{bars}</div>;
     };
 
-    if (isLoading) {
-        return <LoadingScreen />;
-    }
+    if (isLoading) return <LoadingScreen />;
 
     return (
         <div className="profile-container">
@@ -211,10 +183,7 @@ const Profile = () => {
             <div className="total-amount-card">
                 <div className="amount-header">
                     <h2>Umumiy nasiya</h2>
-                    <button
-                        className="toggle-visibility"
-                        onClick={() => setIsAmountVisible(!isAmountVisible)}
-                    >
+                    <button className="toggle-visibility" onClick={() => setIsAmountVisible(!isAmountVisible)}>
                         {isAmountVisible ? <IoEyeOutline /> : <IoEyeOffOutline />}
                     </button>
                 </div>
@@ -229,9 +198,7 @@ const Profile = () => {
 
             <div className="stats-grid">
                 <div className="stat-card delayed-payments">
-                    <div className="stat-icon">
-                        <IoWalletOutline />
-                    </div>
+                    <div className="stat-icon"><IoWalletOutline /></div>
                     <div className="stat-info">
                         <h3>Kechiktirilgan to'lovlar</h3>
                         <p>{profileData.delayedPayments}</p>
@@ -239,9 +206,7 @@ const Profile = () => {
                 </div>
 
                 <div className="stat-card total-clients">
-                    <div className="stat-icon">
-                        <IoPersonOutline />
-                    </div>
+                    <div className="stat-icon"><IoPersonOutline /></div>
                     <div className="stat-info">
                         <h3>Mijozlar soni</h3>
                         <p>{profileData.totalClients}</p>

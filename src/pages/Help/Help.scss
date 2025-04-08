@@ -1,0 +1,102 @@
+.help-container {
+    min-height: 100vh;
+    background-color: #f5f5f5;
+
+    .header {
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        background: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            border: none;
+            background: none;
+            color: #000;
+            padding: 8px;
+            margin-right: 16px;
+            cursor: pointer;
+
+            svg {
+                font-size: 24px;
+            }
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: #000;
+            flex: 1;
+        }
+    }
+
+    .help-content {
+        padding: 24px 16px;
+        
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #000;
+            margin: 0 0 12px 0;
+        }
+
+        p {
+            font-size: 16px;
+            color: #666;
+            margin: 0 0 32px 0;
+            line-height: 1.5;
+        }
+
+        .contact-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            .contact-button {
+                display: flex;
+                align-items: center;
+                padding: 16px;
+                border-radius: 12px;
+                text-decoration: none;
+                color: #fff;
+                font-size: 16px;
+                font-weight: 500;
+                transition: transform 0.2s;
+
+                &:active {
+                    transform: scale(0.98);
+                }
+
+                .icon {
+                    font-size: 24px;
+                    margin-right: 12px;
+                }
+
+                &.instagram {
+                    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+                }
+
+                &.telegram {
+                    background: #0088cc;
+                }
+
+                &.phone {
+                    background: #34C759;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .help-container {
+        .help-content {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 32px;
+        }
+    }
+} 

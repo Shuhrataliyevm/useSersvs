@@ -1,0 +1,128 @@
+.transaction-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+
+    .form-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+
+        .back-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #2B3674;
+            cursor: pointer;
+            padding: 8px;
+            margin-right: 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+
+            &:hover {
+                background-color: #F6F8FD;
+            }
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #2B3674;
+            margin: 0;
+        }
+    }
+
+    .form-group {
+        margin-bottom: 24px;
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2B3674;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #E9EDF7;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #2B3674;
+            background: white;
+            transition: border-color 0.2s;
+
+            &:focus {
+                outline: none;
+                border-color: #4318FF;
+            }
+
+            &::placeholder {
+                color: #A3AED0;
+            }
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .formatted-amount {
+            margin-top: 8px;
+            color: #4318FF;
+            font-weight: 500;
+        }
+    }
+
+    .submit-button {
+        width: 100%;
+        padding: 12px;
+        background: #4318FF;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background: #3311CC;
+        }
+
+        &:disabled {
+            background: #A3AED0;
+            cursor: not-allowed;
+        }
+    }
+}
+
+.loading-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: white;
+
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #F6F8FD;
+        border-top: 3px solid #4318FF;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    p {
+        margin-top: 16px;
+        color: #2B3674;
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+} 

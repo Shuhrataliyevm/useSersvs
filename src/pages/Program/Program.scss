@@ -1,0 +1,191 @@
+.program-container {
+    min-height: 100vh;
+    background-color: #fff;
+    animation: fadeIn 0.3s ease;
+
+    .header {
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        background: #fff;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            border: none;
+            background: none;
+            color: #000;
+            padding: 8px;
+            margin-right: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+
+            &:active {
+                transform: scale(0.95);
+            }
+
+            svg {
+                font-size: 24px;
+            }
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 500;
+            color: #000;
+            flex: 1;
+        }
+    }
+
+    .content-wrapper {
+        padding: 24px 16px;
+    }
+
+    .program-content {
+        .logo-section {
+            display: flex;
+            justify-content: center;
+            margin: 32px 0 48px;
+
+            .app-logo {
+                width: 80px;
+                height: 80px;
+                animation: float 3s ease-in-out infinite;
+            }
+        }
+
+        .version-info {
+            margin-bottom: 32px;
+
+            .version-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 16px;
+                background: #fff;
+                margin: 0 16px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+                .label {
+                    color: #000;
+                    font-size: 16px;
+                    font-weight: 400;
+                }
+
+                .value {
+                    color: #2196F3;
+                    font-size: 16px;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        .rate-button {
+            position: fixed;
+            left: 16px;
+            right: 16px;
+            bottom: 16px;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: #2196F3;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: slideUp 0.4s ease;
+
+            &:active {
+                transform: scale(0.98);
+                background: darken(#2196F3, 5%);
+            }
+        }
+    }
+}
+
+// Анимации
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+// Медиа-запросы для адаптивности
+@media (min-width: 768px) {
+    .program-container {
+        .content-wrapper {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 32px 16px;
+        }
+
+        .program-content {
+            .logo-section {
+                .app-logo {
+                    width: 100px;
+                    height: 100px;
+                }
+            }
+
+            .rate-button {
+                position: static;
+                margin: 0 16px;
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .program-container {
+        .header {
+            h1 {
+                font-size: 18px;
+            }
+        }
+
+        .program-content {
+            .logo-section {
+                margin: 24px 0 32px;
+                
+                .app-logo {
+                    width: 64px;
+                    height: 64px;
+                }
+            }
+
+            .version-info {
+                .version-row {
+                    .label, .value {
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+} 

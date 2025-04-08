@@ -1,0 +1,117 @@
+.register {
+    width: 100%;
+    max-width: 660px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border: none;
+    border-radius: 10px;
+    margin-right: -800px;
+    margin-top: -300px;
+
+    .register-enter-images{
+        position: relative;
+        left: -700px;
+        top: 450px;
+
+        .register-enter{
+            width: 350px;
+            height: 360px;
+        }
+    }
+
+    .phones {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        .phones-time {
+            font-size: 16px;
+            font-weight: bold;
+        }
+    }
+
+    .register-image img {
+        width: 50px;
+        margin-bottom: 20px;
+    }
+
+    h4 {
+        font-size: 35px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .register-text {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    form {
+        .ant-form-item {
+            margin-bottom: 15px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                border-color: #007bff;
+                outline: none;
+            }
+        }
+
+        .ant-btn-primary {
+            width: 100%;
+            padding: 10px;
+            height: 45px;
+            background: #007bff;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+
+            &:hover {
+                background: #0056b3;
+            }
+
+            &:active {
+                background: #004494;
+            }
+        }
+    }
+
+    @media (max-width: 650px) {
+        max-width: 500px;
+        padding: 15px;
+        margin-top: -370px;
+        margin-left: 55px;
+
+
+        h4 {
+            font-size: 26px;
+        }
+
+        .register-text {
+            font-size: 16px;
+        }
+
+        input {
+            height: 40px;
+            font-size: 14px;
+        }
+
+        .ant-btn-primary {
+            height: 40px;
+            font-size: 14px;
+        }
+    }
+}

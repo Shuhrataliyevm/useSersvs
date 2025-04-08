@@ -4,7 +4,6 @@ import './Program.scss';
 
 const Program = () => {
     const navigate = useNavigate();
-    const version = '1.0.0';
 
     return (
         <div className="program-container">

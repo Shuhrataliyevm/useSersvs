@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './News.scss';
-import { IoArrowBack, IoAdd } from 'react-icons/io5';
+import { IoArrowBack } from 'react-icons/io5';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';

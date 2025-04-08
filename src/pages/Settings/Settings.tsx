@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { IoArrowBack, IoPersonOutline, IoChevronForward, IoHelpCircleOutline, IoLogOutOutline } from 'react-icons/io5';
+import { IoArrowBack, IoChevronForward } from 'react-icons/io5';
 import LogoutModal from '../../components/LogoutModal/LogoutModal';
 import './Settings.scss';
 
@@ -17,7 +17,7 @@ interface SettingsGroup {
 
 const Settings: React.FC = () => {
     const navigate = useNavigate();
-    const [profile, setProfile] = useState({
+    const [Profile, setProfile] = useState({
         full_name: '',
         phone_number: '',
         email: '',

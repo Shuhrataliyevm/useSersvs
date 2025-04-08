@@ -98,11 +98,6 @@ const Profile = () => {
         };
     }, []);
 
-    const handleLogout = () => {
-        localStorage.clear();
-        navigate("/login");
-    };
-
     const formatCurrency = (amount: number): string => {
         return new Intl.NumberFormat("uz-UZ").format(amount);
     };

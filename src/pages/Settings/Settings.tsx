@@ -17,7 +17,7 @@ interface SettingsGroup {
 
 const Settings: React.FC = () => {
     const navigate = useNavigate();
-    const [ setProfile] = useState({
+    const [ profile, setProfile] = useState({
         full_name: '',
         phone_number: '',
         email: '',

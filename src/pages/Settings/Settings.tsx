@@ -17,7 +17,7 @@ interface SettingsGroup {
 
 const Settings: React.FC = () => {
     const navigate = useNavigate();
-    const [ profile, setProfile] = useState({
+    const [profile, setProfile] = useState({
         full_name: '',
         phone_number: '',
         email: '',
@@ -56,16 +56,21 @@ const Settings: React.FC = () => {
         const fetchProfile = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch('https://nasiya.takedaservice.uz/api/auth/profile', {
+                const response = await fetch('https://nasiya.takedaservice.uz/api/profile', {
                     headers: {
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
                     }
                 });
-                
+
                 if (!response.ok) {
-                    throw new Error('Профиль юкланмади');
+                    if (response.status === 401) {
+                        navigate('/login');
+                        return;
+                    }
+                    throw new Error('Сервер хатоси');
                 }
-                
+
                 const data = await response.json();
                 setProfile(data.data);
             } catch (error) {
@@ -76,7 +81,8 @@ const Settings: React.FC = () => {
         };
 
         fetchProfile();
-    }, []);
+        setTimeout(() => setLoading(false), 1500);
+    }, [navigate]);
 
     const handleLogout = () => {
         setShowLogoutModal(true);
@@ -111,7 +117,7 @@ const Settings: React.FC = () => {
                 <button className="back-button" onClick={() => navigate(-1)} title="Orqaga">
                     <IoArrowBack />
                 </button>
-                <h1>Sozlamalar</h1>
+                <h1>Созламалар</h1>
             </div>
 
             <div className="settings-list">

@@ -5,14 +5,17 @@ import LogoutModal from '../../components/LogoutModal/LogoutModal';
 import './Settings.scss';
 
 
+interface SettingsItem {
+    id: string;
+    title: string;
+    link: string;
+    color?: string;
+    subtitle?: string;
+}
+
 interface SettingsGroup {
     title: string;
-    items: {
-        id: string;
-        title: string;
-        link: string;
-        color?: string;
-    }[];
+    items: SettingsItem[];
 }
 
 const Settings: React.FC = () => {
@@ -30,8 +33,18 @@ const Settings: React.FC = () => {
         {
             title: 'Asosiy',
             items: [
-                { id: '1', title: "Shaxsiy ma'lumotlar", link: '/personal-info' },
-                { id: '2', title: 'Xavfsizlik', link: '/security' }
+                { 
+                    id: '1', 
+                    title: "Shaxsiy ma'lumotlar", 
+                    link: '/personal-info',
+                    subtitle: profile.full_name 
+                },
+                { 
+                    id: '2', 
+                    title: 'Telefon', 
+                    link: '/security',
+                    subtitle: profile.phone_number
+                }
             ]
         },
         {
@@ -117,7 +130,7 @@ const Settings: React.FC = () => {
                 <button className="back-button" onClick={() => navigate(-1)} title="Orqaga">
                     <IoArrowBack />
                 </button>
-                <h1>Созламалар</h1>
+                <h1>Sozlamalar</h1>
             </div>
 
             <div className="settings-list">
@@ -132,7 +145,12 @@ const Settings: React.FC = () => {
                                     onClick={() => handleItemClick(item.link)}
                                     style={{ color: item.color }}
                                 >
-                                    <span>{item.title}</span>
+                                    <div className="item-content">
+                                        <span className="item-title">{item.title}</span>
+                                        {item.subtitle && (
+                                            <span className="item-subtitle">{item.subtitle}</span>
+                                        )}
+                                    </div>
                                     <IoChevronForward className="arrow" />
                                 </button>
                             ))}

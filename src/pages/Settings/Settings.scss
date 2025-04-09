@@ -1,4 +1,3 @@
-// Общие стили
 .settings-loading {
     display: flex;
     justify-content: center;
@@ -78,6 +77,24 @@
             .arrow {
                 color: #C7C7CC;
                 font-size: 20px;
+            }
+
+            .item-content {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                flex: 1;
+
+                .item-title {
+                    font-size: 16px;
+                    color: #333;
+                }
+
+                .item-subtitle {
+                    font-size: 14px;
+                    color: #666;
+                    margin-top: 4px;
+                }
             }
         }
     }

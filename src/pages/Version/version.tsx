@@ -17,6 +17,7 @@ const Version = () => {
             return;
         }
 
+
         setIsSubmitting(true);
         try {
             const token = localStorage.getItem('token');
@@ -85,6 +86,7 @@ const Version = () => {
                                 <span className="button-text">
                                     {isSubmitting ? 'Yuborilmoqda...' : 'Yuborish'}
                                 </span>
+                                
                             </span>
                         </button>
                     </form>
